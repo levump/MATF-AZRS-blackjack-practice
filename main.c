@@ -153,7 +153,11 @@ deck new_deck(card *cards, unsigned* seed)
 	return d;
 }
 
-
+void hit(hand *h, deck *d)
+{
+	h->cards[h->size] = d->cards[d->next_card++];
+	h->size++;
+}
 
 int main(int argc, char **argv){
 	if(argc < 2){
