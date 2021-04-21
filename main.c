@@ -25,8 +25,19 @@ void error(const char* msg, int exit_code)
 }
 
 
-int main(){
+int main(int argc, char **argv){
+	if(argc < 2){
+		printf("usage: %s <input_folder>", argv[0]);
+		exit(-1);
+	}
 
+	char *map_path = argv[1];
+	unsigned *seed = NULL;
+
+	if(argc >= 3){
+		unsigned seed_value = strtol(argv[2], NULL, 10);
+		seed = &seed_value;
+	}
 
 	return 0;
 }
