@@ -44,7 +44,10 @@ typedef struct Deck{
 	unsigned next_card;
 }deck;
 
-
+typedef struct Hand{
+	unsigned size;
+	card* cards[MAX_HAND_SIZE];
+}hand;
 
 void error(const char* msg, int exit_code)
 {
