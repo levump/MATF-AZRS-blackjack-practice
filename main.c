@@ -146,7 +146,6 @@ deck new_deck(card *cards, unsigned* seed)
 {
 	deck d;
 	d.next_card = 0;
-	int i;
 	for(int i= 0; i < DECK_SIZE; i++)
 		d.cards[i] = &cards[i/4];
 
@@ -159,6 +158,77 @@ void hit(hand *h, deck *d)
 	h->size++;
 }
 
+
+int hand_value(hand *h)
+{
+
+	int has_ace = 0;
+	int value = 0;
+	for(int i = 0; i < h->size; i++){
+		enum card_type type = h->cards[i]->type;
+		switch(type){
+			case C_2:
+				value += 2;
+				break;
+			case C_3:
+				value += 3;
+				break;
+			case C_4:
+				value += 4;
+				break;
+			case C_5:
+				value += 5;
+				break;
+			case C_6:
+				value += 6;
+				break;
+			case C_7:
+				value += 7;
+				break;
+			case C_8:
+				value += 8;
+				break;
+			case C_9:
+				value += 9;
+				break;
+			case C_10:
+			case C_JACK:
+			case C_QUEEN:
+			case C_KING:
+				value += 10;
+				break;
+			case C_ACE:
+				value += 1;
+				has_ace = 1;
+				break;
+		}
+
+	}
+	if (has_ace && value <= 11)
+		value += 10;
+	
+	return value;
+}
+void start_game(hand *dealer, hand* player, deck *d)
+{
+	player->size = 0;
+	dealer->size = 0;
+
+	hit(player, d);
+	hit(player, d);
+
+	hit(dealer, d);
+	hit(dealer, d);
+
+	dealer->size--;
+
+	show_hand(dealer, "DEALERS CARDS: ");
+	show_hand(player, "PLAYER CARDS: ");
+
+
+
+
+}
 int main(int argc, char **argv){
 	if(argc < 2){
 		printf("usage: %s <input_folder>", argv[0]);
