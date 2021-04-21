@@ -209,6 +209,63 @@ int hand_value(hand *h)
 	
 	return value;
 }
+
+void show_hand(hand *h, char *caption)
+{
+	printf("%s\n\n", caption);
+	printf(BAR);
+	
+	char **lines = malloc(MAX_LINES * sizeof(char *));
+	int size = 0;
+
+	for(int i = 0; i < MAX_LINES; i++){
+		lines[i] = malloc(LINE_SIZE);
+		for(int j = 0; j < LINE_SIZE; j++)
+			lines[i][j] = '\0';
+
+	}
+	
+	for(int i = 0; i < h->size; i++)
+	{
+		FILE *input = fopen(h->cards[i]->image_path, "r");
+		if(input == NULL)
+			error("Reading card image failed!", 1);
+		char *line = malloc(LINE_SIZE);
+		int line_index = 0;
+
+		while(fgets(line, LINE_SIZE, input) != NULL){
+			if(strlen(lines[line_index]) > 0)
+				sprintf(lines[line_index], "%s %s", lines[line_index], line);
+			else
+				strcpy(lines[line_index], line);
+
+			int n = strlen(lines[line_index]);
+
+			if(lines[line_index][n-1] == '\n')
+				lines[line_index][n-1] = '\0';
+			
+			line_index++;
+			size = (line_index > size) ? line_index : size;
+		}
+
+		free(line);
+		fclose(input);
+	}
+
+	for(int i = 0; i < size; i++)
+		printf("%s\n", lines[i]);
+	
+	for(int i = 0; i < MAX_LINES; i++)
+		free(lines[i]);
+	free(lines);
+
+	printf("score:%d\n\n", hand_value(h));
+	printf(BAR);
+
+}
+
+
+
 void start_game(hand *dealer, hand* player, deck *d)
 {
 	player->size = 0;
@@ -224,9 +281,6 @@ void start_game(hand *dealer, hand* player, deck *d)
 
 	show_hand(dealer, "DEALERS CARDS: ");
 	show_hand(player, "PLAYER CARDS: ");
-
-
-
 
 }
 int main(int argc, char **argv){
