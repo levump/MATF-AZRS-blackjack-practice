@@ -168,7 +168,8 @@ int main(int argc, char **argv){
 	
 	card* cards = malloc(CARD_NUM*sizeof(card));
 	init_cards(cards, map_path);
-
+	
+	deck d = new_deck(cards, seed);
 	
 
 	return 0;
