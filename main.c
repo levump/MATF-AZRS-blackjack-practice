@@ -301,7 +301,7 @@ int main(int argc, char **argv){
 	init_cards(cards, map_path);
 	
 	deck d = new_deck(cards, seed);
-	print("successful loaded deck file :)")	
+	printf("successful loaded deck file :)");	
 
 	return 0;
 }
