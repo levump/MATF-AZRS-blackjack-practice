@@ -16,6 +16,28 @@
 #define BUFFSIZE  (64)
 #define BAR "__________________________________________________\n"
 
+enum card_type{
+	C_ACE   = 0,
+	C_KING  = 1,
+	C_QUEEN = 2,
+	C_JACK  = 3,
+	C_10    = 4,
+	C_9     = 5,
+	C_8     = 6,
+	C_7     = 7,
+	C_6     = 8,
+	C_5     = 9,
+	C_4     = 10,
+	C_3     = 11,
+	C_2     = 12
+
+};
+
+typedef struct Card{
+	enum card_type type;
+	char image_path[MAX_PATH_LEN];
+
+} card;
 
 
 void error(const char* msg, int exit_code)
