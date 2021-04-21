@@ -73,6 +73,8 @@ void check_card(card card)
 	fclose(input);
 }
 
+
+
 void init_cards(card *cards, char *map_path)
 {
 	struct stat file_info;
@@ -140,7 +142,22 @@ void init_cards(card *cards, char *map_path)
 		check_card(cards[i]);
 
 }
+void fisher_yates(deck *d, unsigned *seed)
+{
+		if(seed)
+			srand(*seed);
+		else
+			srand(time(NULL));
 
+		for(int k = DECK_SIZE - 1; k >= 1; k--){
+			int r = ((unsigned) rand()) % (k+1);
+			card* t = d->cards[k];
+			d->cards[k] = d->cards[r];
+			d->cards[r] = t;
+
+		}
+
+}
 
 deck new_deck(card *cards, unsigned* seed)
 {
@@ -149,6 +166,7 @@ deck new_deck(card *cards, unsigned* seed)
 	for(int i= 0; i < DECK_SIZE; i++)
 		d.cards[i] = &cards[i/4];
 
+	fisher_yates(&d, seed);
 	return d;
 }
 
@@ -301,7 +319,7 @@ int main(int argc, char **argv){
 	init_cards(cards, map_path);
 	
 	deck d = new_deck(cards, seed);
-	print("successful loaded deck file :)")	
+	printf("successful loaded deck file :)");	
 
 	return 0;
 }
