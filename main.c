@@ -39,6 +39,13 @@ typedef struct Card{
 
 } card;
 
+typedef struct Deck{
+	card* cards[DECK_SIZE];
+	unsigned next_card;
+}deck;
+
+
+
 void error(const char* msg, int exit_code)
 {
 	printf("%s\n", msg);
@@ -132,6 +139,18 @@ void init_cards(card *cards, char *map_path)
 }
 
 
+deck new_deck(card *cards, unsigned* seed)
+{
+	deck d;
+	d.next_card = 0;
+	int i;
+	for(int i= 0; i < DECK_SIZE; i++)
+		d.cards[i] = &cards[i/4];
+
+	return d;
+}
+
+
 
 int main(int argc, char **argv){
 	if(argc < 2){
@@ -149,7 +168,8 @@ int main(int argc, char **argv){
 	
 	card* cards = malloc(CARD_NUM*sizeof(card));
 	init_cards(cards, map_path);
-
+	
+	deck d = new_deck(cards, seed);
 	
 
 	return 0;
